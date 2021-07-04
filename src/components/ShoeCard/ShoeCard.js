@@ -5,6 +5,11 @@ import { COLORS, WEIGHTS } from '../../constants';
 import { formatPrice, pluralize, isNewShoe } from '../../utils';
 import Spacer from '../Spacer';
 
+const variantText = {
+  'new-release': 'New Release',
+  'on-sale': 'Sale',
+};
+
 const ShoeCard = ({
   slug,
   name,
@@ -35,6 +40,9 @@ const ShoeCard = ({
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
         <ImageWrapper>
+          {variant && variant !== 'default' && (
+            <Variant variant={variant}>{variantText[variant]}</Variant>
+          )}
           <Image alt="" src={imageSrc} />
         </ImageWrapper>
         <Spacer size={12} />
@@ -50,6 +58,18 @@ const ShoeCard = ({
   );
 };
 
+const Variant = styled.span`
+  position: absolute;
+  top: 12px;
+  right: -4px;
+  padding: 8px 10px;
+  color: ${COLORS.white};
+  font-weight: 800;
+  border-radius: 2px;
+  background-color: ${(p) =>
+    p.variant === 'new-release' ? COLORS.secondary : COLORS.primary};
+`;
+
 const Link = styled.a`
   text-decoration: none;
   color: inherit;
@@ -63,6 +83,7 @@ const ImageWrapper = styled.div`
 `;
 
 const Image = styled.img`
+  border-radius: 16px 16px 4px 4px;
   width: 100%;
 `;
 
