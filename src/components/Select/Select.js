@@ -27,10 +27,8 @@ const Select = ({ label, value, children, ...delegated }) => {
 };
 
 const Wrapper = styled.label`
-  align-self: baseline;
   display: flex;
-  align-items: center;
-  margin-top: -4px;
+  align-items: baseline;
 `;
 
 const VisibleLabel = styled.span`
