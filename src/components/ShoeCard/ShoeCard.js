@@ -41,24 +41,27 @@ const ShoeCard = ({
       <Wrapper>
         <ImageWrapper>
           {variant && variant !== 'default' && (
-            <Variant variant={variant}>{variantText[variant]}</Variant>
+            <VariantMarker variant={variant}>
+              {variantText[variant]}
+            </VariantMarker>
           )}
           <Image alt="" src={imageSrc} />
         </ImageWrapper>
         <Spacer size={12} />
         <Row>
           <Name>{name}</Name>
-          <Price>{formatPrice(price)}</Price>
+          <Price strikethrough={!!salePrice}>{formatPrice(price)}</Price>
         </Row>
         <Row>
           <ColorInfo>{pluralize('Color', numOfColors)}</ColorInfo>
+          {salePrice && <SalePrice>{formatPrice(salePrice)}</SalePrice>}
         </Row>
       </Wrapper>
     </Link>
   );
 };
 
-const Variant = styled.span`
+const VariantMarker = styled.figcaption`
   position: absolute;
   top: 12px;
   right: -4px;
@@ -78,7 +81,7 @@ const Link = styled.a`
 
 const Wrapper = styled.article``;
 
-const ImageWrapper = styled.div`
+const ImageWrapper = styled.figure`
   position: relative;
 `;
 
@@ -89,6 +92,9 @@ const Image = styled.img`
 
 const Row = styled.div`
   font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
 `;
 
 const Name = styled.h3`
@@ -96,7 +102,14 @@ const Name = styled.h3`
   color: ${COLORS.gray[900]};
 `;
 
-const Price = styled.span``;
+const Price = styled.span`
+  ${(p) =>
+    p.strikethrough &&
+    `
+      text-decoration: line-through;
+      color: ${COLORS.gray['700']};
+    `}
+`;
 
 const ColorInfo = styled.p`
   color: ${COLORS.gray[700]};
