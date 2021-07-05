@@ -5,11 +5,6 @@ import { COLORS, WEIGHTS } from '../../constants';
 import { formatPrice, pluralize, isNewShoe } from '../../utils';
 import Spacer from '../Spacer';
 
-const variantText = {
-  'new-release': 'New Release',
-  'on-sale': 'Sale',
-};
-
 const ShoeCard = ({
   slug,
   name,
@@ -40,11 +35,8 @@ const ShoeCard = ({
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
         <ImageWrapper>
-          {variant && variant !== 'default' && (
-            <VariantMarker variant={variant}>
-              {variantText[variant]}
-            </VariantMarker>
-          )}
+          {variant === 'on-sale' && <SaleMarker>Sale</SaleMarker>}
+          {variant === 'new-release' && <NewMarker>Just Released!</NewMarker>}
           <Image alt="" src={imageSrc} />
         </ImageWrapper>
         <Spacer size={12} />
@@ -65,12 +57,20 @@ const VariantMarker = styled.figcaption`
   position: absolute;
   top: 12px;
   right: -4px;
-  padding: 8px 10px;
+  padding: 0 10px;
   color: ${COLORS.white};
-  font-weight: 800;
+  font-weight: ${WEIGHTS.bold};
   border-radius: 2px;
-  background-color: ${(p) =>
-    p.variant === 'new-release' ? COLORS.secondary : COLORS.primary};
+  font-size: 14px;
+  height: 32px;
+  line-height: 32px;
+`;
+
+const SaleMarker = styled(VariantMarker)`
+  background-color: ${COLORS.primary};
+`;
+const NewMarker = styled(VariantMarker)`
+  background-color: ${COLORS.secondary};
 `;
 
 const Link = styled.a`
